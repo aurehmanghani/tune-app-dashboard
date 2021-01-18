@@ -1,7 +1,7 @@
 const mongoose = require("mongoose")
 
 const schema = mongoose.Schema({
-	time: String,
+	timestamp: String,
     type: String,
     user_id: String,
     revenue: String

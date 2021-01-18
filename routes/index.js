@@ -25,7 +25,8 @@ routes.get("/users", async (req, res) => {
     ]);
 
     let res_arr = []
-    let chart_data = []
+    let chart_data_revenue = []
+    //let chart_data_timestamp = []
 
     users_data.map((user)=>{  
 
@@ -36,14 +37,21 @@ routes.get("/users", async (req, res) => {
             if(cur.user_id == user.id){
                 if(cur.type == 'conversion')  {
                     conversion_count++ 
-                    chart_data.push(Math.round(cur.revenue))
+                    // chart_data.push({
+                    //     revenue:Math.round(cur.revenue),
+                    //     timestamp:cur.timestamp
+                    // })
+                    chart_data_revenue.push(cur.revenue)
+                    //chart_data_timestamp.push(cur.timestamp)
+                    
+                    
                 }else if(cur.type == 'impression') {
                     impression_count++
                 }
                 return prev + cur.revenue
             }
         }, 0)
-        
+
         res_arr.push({
             name: user.name,
             avatar: (user.avatar) ? user.avatar : user.name.charAt(0),
@@ -52,11 +60,12 @@ routes.get("/users", async (req, res) => {
             revenue:revenueTotal.toFixed(2),
             conversion_count:conversion_count,
             impression_count:impression_count,
-            chart_data: chart_data
+            chart_data_revenue: chart_data_revenue,
+            //chart_data_timestamp:chart_data_timestamp
         })
     })
     res.send(res_arr)
-    chart_data = [];
+    //chart_data = [];
 })
 
 module.exports = routes
